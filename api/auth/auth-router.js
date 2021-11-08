@@ -3,7 +3,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const User = require('../users/users-model');
-const { checkUsernameFree, checkPasswordLength, checkUsernameExists, restricted } = require('./auth-middleware');
+const { checkUsernameFree, checkPasswordLength, checkUsernameExists } = require('./auth-middleware');
 
 /**
   1 [POST] /api/auth/register { "username": "sue", "password": "1234" }
@@ -84,7 +84,7 @@ router.post('/login', checkUsernameExists, async (req, res, next) => {
     "message": "no session"
   }
  */
-router.get('/logout', async (req, res, next) => {
+router.get('/logout', async (req, res, next) => { // eslint-disable-line
   if (!req.session.user) {
     return res.json({ message: 'no session' })
   }

@@ -23,8 +23,8 @@ function restricted(req, res, next) {
     "message": "Username taken"
   }
 */
-function checkUsernameFree(req, res, next) {
-  const user = User.findBy(req.body.username)
+async function checkUsernameFree(req, res, next) {
+  const [user] = await User.findBy({ username:req.body.username })
   if (user) {
     next({ status: 422, message: "Username taken" })
   } else {
@@ -41,7 +41,7 @@ function checkUsernameFree(req, res, next) {
   }
 */
 function checkUsernameExists(req, res, next) {
-  const user = User.find().find(user => req.body.username === user.username)
+  const user = User.findBy({ username: req.body.username })
   if (!user) {
     next({ status: 401, message: "Invalid credentials" })
   } else {
@@ -58,8 +58,8 @@ function checkUsernameExists(req, res, next) {
   }
 */
 function checkPasswordLength(req, res, next) {
-  const { password } = req.body.password;
-  if (!password || password.trim().length <= 3) {
+  const { password } = req.body;
+  if (!password || password.trim().length < 4) {
     next({ status: 422, message: "Password must be longer than 3 chars" })
   } else {
     next()
