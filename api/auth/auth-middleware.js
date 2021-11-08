@@ -24,7 +24,7 @@ function restricted(req, res, next) {
   }
 */
 function checkUsernameFree(req, res, next) {
-  const user = User.find().find(user => req.body.username === user.username)
+  const user = User.findBy(req.body.username)
   if (user) {
     next({ status: 422, message: "Username taken" })
   } else {
