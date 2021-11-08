@@ -63,7 +63,7 @@ router.post('/login', checkUsernameExists, async (req, res, next) => {
       return next({ status: 401, message: "Invalid credentials" })
     }
     req.session.user = user;
-    res.json({ message: `Welcome ${username}`})
+    res.json({ message: `welcome ${username}`})
   } catch (err) {
     next(err)
   }
